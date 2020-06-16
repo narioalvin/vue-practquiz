@@ -1,0 +1,93 @@
+@mixin flex($align, $justify, $direction) {
+  display: flex;
+  justify-content: $justify;
+  align-items: $align;
+  flex-direction: $direction;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+#app {
+  font-family: 'PatrickHand', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  background-color: #fff293;
+  background-image: linear-gradient(315deg, #fff293 0%, #ffe884 74%);
+
+  height: 100vh;
+  @include flex(center, center, row);
+}
+
+section {
+  @include flex(center, center, column);
+  height: 80vh;
+  width: 100%;
+  background: #ffffff;
+  margin: 0 15px;
+  border-radius: 15px;
+  overflow: auto;
+}
+
+@keyframes animRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(-300px);
+    opacity: 0;
+    display: none;
+  }
+}
+
+@keyframes animLeft {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@media (min-width: 360px) {
+  .form {
+    width: 350px;
+  }
+
+  .section-two {
+    padding: 0 20px;
+  }
+
+  .section-one img {
+    width: 32%;
+    bottom: 45px;
+  }
+
+  .error-message {
+    width: 310px;
+  }
+}
+
+@media (min-width: 400px) {
+  .form {
+    width: 400px;
+    height: 75vh;
+  }
+
+  .section-one img {
+    width: 30%;
+    bottom: 60px;
+  }
+
+  .error-message {
+    width: 340px;
+  }
+}
+
