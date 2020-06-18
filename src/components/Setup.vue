@@ -4,32 +4,39 @@
       <div class="top-img">
         <img src="../assets/img/idea.svg" width="100" />
       </div>
-      <div>
-        <input type="number" placeholder="Number of Questions" />
+      <div class="select-container">
+        <label for="numbers">Number of Questions</label>
+        <b-form-select
+          v-model="number"
+          name="numbers"
+          :options="numbers"
+        ></b-form-select>
       </div>
-      <div>
-        <select v-model="category">
-          <option disabled value="">Select Category</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-        </select>
+      <div class="select-container">
+        <label for="categories">Select Category</label>
+        <b-form-select
+          v-model="category"
+          name="categories"
+          :options="categories"
+          value-field="id"
+          text-field="name"
+        ></b-form-select>
       </div>
-      <div>
-        <select v-model="difficulty">
-          <option disabled value="">Select Difficulty</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-        </select>
+      <div class="select-container">
+        <label for="difficulties">Select Difficulty</label>
+        <b-form-select
+          v-model="difficulty"
+          name="difficulties"
+          :options="difficulties"
+        ></b-form-select>
       </div>
-      <div>
-        <select v-model="type">
-          <option disabled value="">Select Type</option>
-          <option value="saab">Saab</option>
-          <option value="mercedes">Mercedes</option>
-          <option value="audi">Audi</option>
-        </select>
+      <div class="select-container">
+        <label for="difficulties">Select Type</label>
+        <b-form-select
+          v-model="type"
+          name="types"
+          :options="types"
+        ></b-form-select>
       </div>
       <div>
         <button class="primary" @click="start">Start</button>
@@ -43,36 +50,65 @@ export default {
   name: 'Setup',
   data() {
     return {
+      opentbAPI: 'https://opentdb.com/api.php?',
+      numbers: [],
+      categories: [],
+      difficulties: [
+        { value: '', text: 'Any Difficulty' },
+        { value: 'easy', text: 'Easy' },
+        { value: 'medium', text: 'Medium' },
+        { value: 'hard', text: 'Hard' },
+      ],
+      types: [
+        { value: '', text: 'Any Type' },
+        { value: 'multiple', text: 'Multiple Choice' },
+        { value: 'boolean', text: 'True / False' },
+      ],
+      number: '10',
       category: '',
       difficulty: '',
       type: '',
       showSetup: true,
+      questions: [],
     };
   },
   created() {
-    this.getData();
-    console.log(this.value);
+    for (let i = 1; i <= 50; i++) {
+      this.numbers.push(i);
+    }
+    this.getCategories();
   },
   methods: {
-    getData() {
-      fetch(`https://opentdb.com/api.php?amount=13`)
+    getCategories() {
+      fetch('https://opentdb.com/api_category.php/')
         .then((result) => {
           return result.json();
         })
         .then((results) => {
-          console.log(results);
+          results.trivia_categories.unshift({ id: '', name: 'Any Category' });
+          this.categories = results.trivia_categories;
         });
     },
     start() {
-      const element = document.querySelector('.setup-container');
-      element.style['-webkit-animation'] = 'animRight .3s forwards';
-
-      setTimeout(() => {
-        this.$router.push({
-          name: 'Question',
+      fetch(
+        `${this.opentbAPI}amount=${this.number}&category=${this.category}&difficulty=${this.difficulty}&type=${this.type}`
+      )
+        .then((result) => {
+          return result.json();
+        })
+        .then((results) => {
+          this.questions = results.results;
+          console.log(this.questions);
         });
-      }, 500);
-    },
+      // const element = document.querySelector('.setup-container');
+      // element.style['-webkit-animation'] = 'animRight .3s forwards';
+
+      // setTimeout(() => {
+      //   this.$router.push({
+      //     name: 'Question',
+      //   });
+      // }, 500);
+    }
   },
 };
 </script>
@@ -117,6 +153,11 @@ export default {
     &:hover {
       background: #0eb9d8;
     }
+  }
+
+  .select-container {
+    display: flex;
+    flex-direction: column;
   }
 }
 

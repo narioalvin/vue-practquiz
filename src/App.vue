@@ -20,7 +20,5 @@ export default {
   src: url('./assets/font/PatrickHand-Regular.ttf');
   src: local('PatrickHand Regular'), local('PatrickHand-Regular'),
     url('./assets/font/PatrickHand-Regular.ttf') format('opentype');
-  // font-weight: normal;
-  // font-style: normal;
 }
 </style>

@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import { BDropdown, BDropdownItem, BButton } from 'bootstrap-vue';
+import { BButton, BFormSelect } from 'bootstrap-vue';
 
-Vue.component('b-dropdown', BDropdown);
-Vue.component('b-dropdown-item', BDropdownItem);
 Vue.component('b-button', BButton);
+Vue.component('b-form-select', BFormSelect);
 
 Vue.config.productionTip = false
 
