@@ -1,8 +1,13 @@
 <template>
-  <section>
-    <div class="setup-container" v-if="showSetup">
+  <section class="setup">
+    <div class="loading" v-if="pageLoading">
+      <img src="../assets/img/idea.svg" width="100" />
+      <b-spinner class="spinner" large></b-spinner>
+    </div>
+    <div class="setup-container" v-if="!pageLoading">
       <div class="top-img">
         <img src="../assets/img/idea.svg" width="100" />
+        <h3>Let's PractQuiz!</h3>
       </div>
       <div class="select-container">
         <label for="numbers">Number of Questions</label>
@@ -39,7 +44,10 @@
         ></b-form-select>
       </div>
       <div>
-        <button class="primary" @click="start">Start</button>
+        <button class="primary" @click="start">
+          START
+          <b-spinner class="spinner" v-if="busy" small></b-spinner>
+        </button>
       </div>
     </div>
   </section>
@@ -68,8 +76,8 @@ export default {
       category: '',
       difficulty: '',
       type: '',
-      showSetup: true,
-      questions: [],
+      busy: false,
+      pageLoading: true,
     };
   },
   created() {
@@ -87,28 +95,35 @@ export default {
         .then((results) => {
           results.trivia_categories.unshift({ id: '', name: 'Any Category' });
           this.categories = results.trivia_categories;
+          this.pageLoading = false;
         });
     },
     start() {
+      this.busy = true;
       fetch(
         `${this.opentbAPI}amount=${this.number}&category=${this.category}&difficulty=${this.difficulty}&type=${this.type}`
       )
         .then((result) => {
           return result.json();
         })
-        .then((results) => {
-          this.questions = results.results;
-          console.log(this.questions);
-        });
-      // const element = document.querySelector('.setup-container');
-      // element.style['-webkit-animation'] = 'animRight .3s forwards';
+        .then((value) => {
+          const results = value.results;
+          const dummyQuestion = { name: 'dummy' };
+          results.unshift(dummyQuestion);
 
-      // setTimeout(() => {
-      //   this.$router.push({
-      //     name: 'Question',
-      //   });
-      // }, 500);
-    }
+          const element = document.querySelector('.setup-container');
+          element.style['-webkit-animation'] = 'animRight .3s forwards';
+
+          setTimeout(() => {
+            this.$router.push({
+              name: 'Question',
+              params: { questions: results },
+            });
+          }, 500);
+
+          this.busy = false;
+        });
+    },
   },
 };
 </script>
@@ -118,46 +133,35 @@ export default {
 
 .setup-container {
   .top-img {
-    margin-bottom: 25px;
+    margin-bottom: 15px;
     text-align: center;
+
+    img {
+      margin-bottom: 15px;
+    }
   }
 
   div {
     margin: 10px 0;
   }
 
-  div select,
-  div input {
-    width: 250px;
-    height: 40px;
+  div select {
+    width: 280px;
+    height: 50px;
     border: 1px solid #d9d9d9;
     border-radius: 10px;
     padding-left: 10px;
-    font-size: 16px;
+    font-size: 17px;
 
     &:focus {
       outline: none;
     }
   }
 
-  div button {
-    width: 250px;
-    margin-top: 20px;
-    border: 0;
-    border-radius: 20px;
-    padding: 10px;
-    background: #3fd8f3;
-    color: #ffffff;
-    transition: 0.5s;
-
-    &:hover {
-      background: #0eb9d8;
-    }
-  }
-
   .select-container {
     display: flex;
     flex-direction: column;
+    font-size: 18px;
   }
 }
 
