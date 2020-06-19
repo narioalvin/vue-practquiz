@@ -2,6 +2,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Setup from '../components/Setup.vue';
 import Question from '../components/Question.vue';
+import Result from '../components/Result.vue';
 
 Vue.use(VueRouter);
 
@@ -19,6 +20,13 @@ const routes = [
     component: Question,
     props: true,
     meta: { title: 'Question - PractQuiz' },
+  },
+  {
+    path: '/result',
+    name: 'Result',
+    component: Result,
+    props: true,
+    meta: { title: 'Result - PractQuiz' },
   },
 ];
 
