@@ -22,3 +22,7 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### API https://opentdb.com/api_config.php
+
+### Icon https://www.flaticon.com/free-icons/light-bulb
