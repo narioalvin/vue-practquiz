@@ -3,6 +3,7 @@
     <img src="../assets/img/idea.svg" width="120" />
     <h1 v-if="score === totalQuestions">Wow! Perfect Score! :)</h1>
     <h1 v-else-if="score === totalQuestions - 1">Almost Perfect! :)</h1>
+    <h1 v-else-if="score < 3 && totalQuestions >= 5">Could be better! :)</h1>
     <h1 v-else-if="score === 0">Sad. But you can try again! :)</h1>
     <h1 v-else>Awesome! :)</h1>
     <h1>{{ score }}/{{ totalQuestions }}</h1>

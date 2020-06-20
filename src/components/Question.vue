@@ -12,7 +12,7 @@
         <div
           id="multiple"
           class="box"
-          :class="{'hover-bg': innerWidth > 768}"
+          :class="{ 'hover-bg': innerWidth > 768 }"
           v-for="(item, index) in answers"
           :key="item.choice"
           @click="submitAnswer(item.value, index)"
@@ -22,10 +22,18 @@
         </div>
       </div>
       <div class="boolean" v-else>
-        <div class="box boolean-box" :class="{'hover-bg': innerWidth > 768}" @click="submitAnswer('True', 0)">
+        <div
+          class="box boolean-box"
+          :class="{ 'hover-bg': innerWidth > 768 }"
+          @click="submitAnswer('True', 0)"
+        >
           <span>True</span>
         </div>
-        <div class="box boolean-box" :class="{'hover-bg': innerWidth > 768}" @click="submitAnswer('False', 1)">
+        <div
+          class="box boolean-box"
+          :class="{ 'hover-bg': innerWidth > 768 }"
+          @click="submitAnswer('False', 1)"
+        >
           <span>False</span>
         </div>
       </div>
@@ -46,7 +54,7 @@ export default {
       score: 0,
       seconds: 60,
       started: true,
-      innerWidth: 0
+      innerWidth: 0,
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -118,6 +126,11 @@ export default {
         items[index].classList.add('correct');
       } else {
         items[index].classList.add('wrong');
+        items[
+          this.questions[this.questionNo].incorrect_answers.indexOf(
+            this.correctAnswer
+          )
+        ].classList.add('correct');
       }
 
       setTimeout(() => {
@@ -129,13 +142,15 @@ export default {
 
         this.checkQuestionNo();
 
-        items[index].classList.remove('correct');
-        items[index].classList.remove('wrong');
+        items.forEach((item) => {
+          item.classList.remove('correct');
+          item.classList.remove('wrong');
+        });
 
         setTimeout(() => {
           element.style['-webkit-animation'] = '';
-        }, 700);
-      }, 700);
+        }, 1000);
+      }, 1000);
     },
     checkQuestionNo() {
       if (this.questionNo === this.questions.length) {
