@@ -1,5 +1,7 @@
-# vue-practquiz
+# PractQuiz
 
+## Live
+[Click Me](https://narioalvin.github.io/vue-practquiz/)
 ## Project setup
 ```
 npm install
