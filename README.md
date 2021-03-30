@@ -2,6 +2,11 @@
 
 ## Live
 [Click Me](https://narioalvin.github.io/vue-practquiz/)
+
+### Requirements
+1. npm
+2. https://opentdb.com/ API
+
 ## Project setup
 ```
 npm install
